@@ -7,8 +7,8 @@ class Config:
     
     # Replace these numbers with your actual Discord Channel IDs
     GUILD_ID = 123456789012345678  
-    WELCOME_CHANNEL_ID = 111222333444
-    LEAD_LOG_CHANNEL_ID = 555666777888
+    WELCOME_CHANNEL_ID = 1487864190969577516
+    LEAD_LOG_CHANNEL_ID = 1487892567151476807
     
     # Branding & Visuals
     PRIMARY_COLOR = 0x0057FF       # Summit Works Blue

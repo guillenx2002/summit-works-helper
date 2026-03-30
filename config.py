@@ -11,11 +11,15 @@ class Config:
     # --- Master Lead Log (For all applications) ---
     LEAD_LOG_CHANNEL_ID = 1487892567151476807
     
+    # --- Project Discussion Channel (NEW) ---
+    # Create a channel called #project-chat and paste its ID here
+    DISCUSSION_CHANNEL_ID = 1488206833930993714
+    
     # --- DayZ Categorized Lead Channels ---
     BUNKER_LOG_ID = 1488201109511077888
     STORE_LOG_ID = 1488201109511077888
     CUSTOM_BUILD_LOG_ID = 1487890299899482245
-    BASES_LOG_ID = 0 # Update this when ready
+    BASES_LOG_ID = 0
 
     CHANNEL_MAP = {
         "Bunker": BUNKER_LOG_ID,
@@ -25,7 +29,6 @@ class Config:
     }
 
     # --- FiveM Categorized Lead Channels ---
-    # Replace these 0s with your FiveM Channel IDs
     HOOD_PACK_ID = 0
     CUSTOM_CITY_ID = 0
     GUN_PACK_ID = 0

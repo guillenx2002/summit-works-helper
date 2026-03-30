@@ -3,12 +3,18 @@ from discord import app_commands
 from discord.ext import commands
 from config import Config 
 
+# --- NEW: The view that shows the "Add Image" button ---
+class ImageUploadView(discord.ui.View):
+    def __init__(self, thread_url):
+        super().__init__(timeout=None)
+        # Create a link button that goes straight to the private thread
+        self.add_item(discord.ui.Button(label="📸 Click Here to Add Images", url=thread_url))
+
 class BuildSubmissionModal(discord.ui.Modal):
     def __init__(self, build_type):
         super().__init__(title=f"Submit: {build_type}")
         self.build_type = build_type
 
-    # --- The 3 Specific Questions ---
     details = discord.ui.TextInput(
         label="Describe your build in deep details",
         style=discord.TextStyle.paragraph,
@@ -31,13 +37,14 @@ class BuildSubmissionModal(discord.ui.Modal):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
-        # 1. Get the right channel from Config
+        # 1. Get channels from config
         channel_id = Config.CHANNEL_MAP.get(self.build_type)
         channel = interaction.guild.get_channel(channel_id)
-        
-        # 2. Get the Master Log channel
         master_log = interaction.guild.get_channel(Config.LEAD_LOG_CHANNEL_ID)
+        # Root channel where private threads are born
+        discussion_root = interaction.guild.get_channel(Config.DISCUSSION_CHANNEL_ID)
 
+        # 2. Create the Summary Embed
         embed = discord.Embed(
             title=f"🛠️ New {self.build_type} Submission",
             color=Config.PRIMARY_COLOR
@@ -48,44 +55,4 @@ class BuildSubmissionModal(discord.ui.Modal):
         embed.add_field(name="Details", value=self.details.value, inline=False)
         embed.set_footer(text=Config.FOOTER_TEXT)
 
-        # Send to the specific category channel
-        if channel:
-            await channel.send(embed=embed)
-        
-        # Send a copy to the Master Log
-        if master_log:
-            await master_log.send(embed=embed)
-
-        await interaction.response.send_message(f"Thanks! Your {self.build_type} has been submitted.", ephemeral=True)
-
-class BuildSelectionView(discord.ui.View):
-    def __init__(self):
-        super().__init__(timeout=None)
-
-    @discord.ui.select(
-        placeholder="What kind of build would you like to be submitting today?",
-        options=[
-            discord.SelectOption(label="Bunker", description="Submit a custom DayZ bunker build"),
-            discord.SelectOption(label="Store", description="Submit a store/shop layout"),
-            discord.SelectOption(label="Custom Build", description="A unique premium project"),
-            discord.SelectOption(label="Bases", description="Clan or player base designs")
-        ]
-    )
-    async def select_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
-        await interaction.response.send_modal(BuildSubmissionModal(select.values[0]))
-
-class Applications(commands.Cog):
-    def __init__(self, bot):
-        self.bot = bot
-
-    # UPDATED COMMAND NAME
-    @app_commands.command(name="dayzapply", description="Start your DayZ build submission")
-    async def dayzapply(self, interaction: discord.Interaction):
-        await interaction.response.send_message(
-            "Welcome to **Summit Works | DayZ Division**. Please use the menu below to start.",
-            view=BuildSelectionView(),
-            ephemeral=True
-        )
-
-async def setup(bot):
-    await bot.add_cog(Applications(bot))
+        # 3. Create Private Thread for

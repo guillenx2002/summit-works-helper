@@ -54,7 +54,7 @@ class BuildSubmissionModal(discord.ui.Modal):
         embed.add_field(name="Details", value=self.details.value, inline=False)
         embed.set_footer(text=Config.FOOTER_TEXT)
 
-        # 3. Create PUBLIC Thread (Changed from private_thread)
+        # 3. Create PUBLIC Thread
         thread = await discussion_root.create_thread(
             name=f"Project: {interaction.user.display_name} - {self.build_type}",
             type=discord.ChannelType.public_thread
@@ -67,5 +67,22 @@ class BuildSubmissionModal(discord.ui.Modal):
 
         # 4. Send the Logs to your staff channels
         log_msg = f"✅ **Public Thread Created:** {thread.jump_url}"
-        if channel: await channel.send(content=log_msg, embed=embed)
-        if master_log: await master_log.send(content=log_
+        if channel: 
+            await channel.send(content=log_msg, embed=embed)
+        if master_log: 
+            await master_log.send(content=log_msg, embed=embed)
+
+        # 5. Show the user the "Add Image" button bar
+        view = ImageUploadView(thread.jump_url)
+        await interaction.response.send_message(
+            "### ✅ Application Received!\nYour public project thread has been created. Click below to add your images.",
+            view=view,
+            ephemeral=True
+        )
+
+class BuildSelectionView(discord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @discord.ui.select(
+        placeholder="What

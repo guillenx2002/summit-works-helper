@@ -11,19 +11,35 @@ class Config:
     # --- Master Lead Log (For all applications) ---
     LEAD_LOG_CHANNEL_ID = 1487892567151476807
     
-    # --- Categorized Lead Channels ---
-    # Replace these 0s with the actual Channel IDs for each category
-    BUNKER_LOG_ID = 0
-    STORE_LOG_ID = 0
-    CUSTOM_BUILD_LOG_ID = 0
-    BASES_LOG_ID = 0
+    # --- DayZ Categorized Lead Channels ---
+    BUNKER_LOG_ID = 1488201109511077888
+    STORE_LOG_ID = 1488201109511077888
+    CUSTOM_BUILD_LOG_ID = 1487890299899482245
+    BASES_LOG_ID = 0 # Update this when ready
 
-    # This dictionary maps the button label to the specific channel ID
     CHANNEL_MAP = {
         "Bunker": BUNKER_LOG_ID,
         "Store": STORE_LOG_ID,
         "Custom Build": CUSTOM_BUILD_LOG_ID,
         "Bases": BASES_LOG_ID
+    }
+
+    # --- FiveM Categorized Lead Channels ---
+    # Replace these 0s with your FiveM Channel IDs
+    HOOD_PACK_ID = 0
+    CUSTOM_CITY_ID = 0
+    GUN_PACK_ID = 0
+    SOUND_PACK_ID = 0
+    CAR_PACK_ID = 0
+    STORE_PACK_ID = 0
+
+    FIVEM_MAP = {
+        "Hood Pack": HOOD_PACK_ID,
+        "Custom City": CUSTOM_CITY_ID,
+        "Gun Pack": GUN_PACK_ID,
+        "Sound Pack": SOUND_PACK_ID,
+        "Car Pack": CAR_PACK_ID,
+        "Store Pack": STORE_PACK_ID
     }
     
     # Branding & Visuals

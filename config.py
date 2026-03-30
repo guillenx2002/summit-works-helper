@@ -1,21 +1,14 @@
 import os
 
 class Config:
-    # Token loaded from Railway Environment Variables
     TOKEN = os.getenv("BOT_TOKEN")
     
-    # --- Main Server & Welcome IDs ---
-    GUILD_ID = 123456789012345678  # Replace with your Server ID
+    GUILD_ID = 123456789012345678 
     WELCOME_CHANNEL_ID = 1487864190969577516
-    
-    # --- Master Lead Log (For all applications) ---
     LEAD_LOG_CHANNEL_ID = 1487892567151476807
-    
-    # --- Project Discussion Channel (NEW) ---
-    # Create a channel called #project-chat and paste its ID here
     DISCUSSION_CHANNEL_ID = 1488206833930993714
     
-    # --- DayZ Categorized Lead Channels ---
+    # --- DayZ ---
     BUNKER_LOG_ID = 1488201109511077888
     STORE_LOG_ID = 1488201109511077888
     CUSTOM_BUILD_LOG_ID = 1487890299899482245
@@ -28,11 +21,11 @@ class Config:
         "Bases": BASES_LOG_ID
     }
 
-    # --- FiveM Categorized Lead Channels ---
+    # --- FiveM (Fixed IDs) ---
     HOOD_PACK_ID = 1488212826668535808
-    CUSTOM_CITY_ID = 14878958293132247040
+    CUSTOM_CITY_ID = 1487895829313224704 # Trimmed
     GUN_PACK_ID = 1487900260582822048
-    SOUND_PACK_ID = 14879003391548459270
+    SOUND_PACK_ID = 1487900339154845927 # Trimmed
     CAR_PACK_ID = 1487900423984644236
     STORE_PACK_ID = 1487900762016186579
 
@@ -45,8 +38,6 @@ class Config:
         "Store Pack": STORE_PACK_ID
     }
     
-    # Branding & Visuals
-    PRIMARY_COLOR = 0x0057FF       # Summit Works Blue
+    PRIMARY_COLOR = 0x0057FF
     BOT_NAME = "Summit Works Helper"
-    BANNER_URL = "https://your-image-link.com/banner.png" 
     FOOTER_TEXT = "Summit Works | Premium Custom Builds"

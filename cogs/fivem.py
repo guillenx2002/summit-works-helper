@@ -53,8 +53,7 @@ class FiveMSubmissionModal(discord.ui.Modal):
         embed.add_field(name="Details", value=self.details.value, inline=False)
         embed.set_footer(text=Config.FOOTER_TEXT)
 
-        # 3. Create PUBLIC Thread (Everyone can see this!)
-        # Note: Changed from private_thread to public_thread
+        # 3. Create PUBLIC Thread
         thread = await discussion_root.create_thread(
             name=f"FiveM: {interaction.user.display_name} - {self.build_type}",
             type=discord.ChannelType.public_thread 
@@ -65,14 +64,16 @@ class FiveMSubmissionModal(discord.ui.Modal):
         await thread.send("Please **upload your reference images, pack files, or screenshots** here for everyone to see!")
 
         # 4. Send the Logs
-        log_msg = f"✅ **FiveM Thread Created:** {thread.jump_url}"
-        if channel: await channel.send(content=log_msg, embed=embed)
-        if master_log: await master_log.send(content=log_msg, embed=embed)
+        log_msg = f"✅ **FiveM Public Thread Created:** {thread.jump_url}"
+        if channel: 
+            await channel.send(content=log_msg, embed=embed)
+        if master_log: 
+            await master_log.send(content=log_msg, embed=embed)
 
-        # 5. Show the user the "Add Image" button
+        # 5. Response to user
         view = ImageUploadView(thread.jump_url)
         await interaction.response.send_message(
-            "### ✅ FiveM Application Received!\nYour public project thread has been created. Click below to add images.",
+            "### ✅ FiveM Application Sent!\nYour public project thread has been created. Click below to add images.",
             view=view,
             ephemeral=True
         )
@@ -95,4 +96,17 @@ class FiveMSelectionView(discord.ui.View):
     async def select_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
         await interaction.response.send_modal(FiveMSubmissionModal(select.values[0]))
 
-class Five
+class FiveMApplications(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @app_commands.command(name="fivemapply", description="Start your FiveM build submission")
+    async def fivemapply(self, interaction: discord.Interaction):
+        await interaction.response.send_message(
+            "Welcome to **Summit Works | FiveM Division**. Select your category below:",
+            view=FiveMSelectionView(),
+            ephemeral=True
+        )
+
+async def setup(bot):
+    await bot.add_cog(FiveMApplications(bot))

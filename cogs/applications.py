@@ -85,4 +85,28 @@ class BuildSelectionView(discord.ui.View):
         super().__init__(timeout=None)
 
     @discord.ui.select(
-        placeholder="What
+        placeholder="What kind of build would you like to be submitting today?",
+        options=[
+            discord.SelectOption(label="Bunker", description="Submit a custom DayZ bunker build"),
+            discord.SelectOption(label="Store", description="Submit a store/shop layout"),
+            discord.SelectOption(label="Custom Build", description="A unique premium project"),
+            discord.SelectOption(label="Bases", description="Clan or player base designs")
+        ]
+    )
+    async def select_callback(self, interaction: discord.Interaction, select: discord.ui.Select):
+        await interaction.response.send_modal(BuildSubmissionModal(select.values[0]))
+
+class Applications(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @app_commands.command(name="dayzapply", description="Start your DayZ build submission")
+    async def dayzapply(self, interaction: discord.Interaction):
+        await interaction.response.send_message(
+            "Welcome to **Summit Works | DayZ Division**. Please use the menu below to start.",
+            view=BuildSelectionView(),
+            ephemeral=True
+        )
+
+async def setup(bot):
+    await bot.add_cog(Applications(bot))
